@@ -26,6 +26,7 @@ WORKDIR /usr/share/nginx/html
 RUN rm -rf *
 
 # Copy the built React app from the build stage to the Nginx HTML directory
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/build .
 
 # Expose port 80 to allow external access to the Nginx server
