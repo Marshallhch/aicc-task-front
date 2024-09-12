@@ -1,0 +1,39 @@
+# Referrence: https://synuns.tistory.com/75
+name: CICD
+# 이벤트가 발생할 때 실행할 workflow를 정의한다.
+on:
+  push:
+    branches:
+      - main
+
+# job을 정의한다.- build, deploy
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Create .env file
+        # .env 파일을 생성하고, secrets에 저장된 값으로 채워넣는다.
+        run: |
+          touch .env
+          echo "${{ secrets.REACT_APP_AUTH_CLIENT_ID }}" > .env
+      - name: Sign in to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build Docker Image
+        run: docker build -t marshallhch/aicc-react-todo-cicd .
+      - name: Push Docker Image
+        run: docker push marshallhch/aicc-react-todo-cicd:latest
+
+  deploy:
+    needs: build
+    runs-on: aws-ec2
+    steps:
+      - name: Pull image from docker hub
+        run: docker pull marshallhch/aicc-react-todo-cicd:latest
+      - name: Delete existing container
+        run: docker rm -f reactContainer
+      - name: Run container
+        # 보통 개발 모드를 위해 3000 포트를 사용하지만, 배포 모드에서는 80 포트를 사용한다. 80 포트는 배포 시 :3000 형식의 포트를 사용하지 않아도 되기 때문이다.
+        run: docker run -d -p 80:80 --name reactContainer marshallhch/aicc-react-todo-cicd
