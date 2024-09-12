@@ -18,14 +18,9 @@ const Navbar = ({ menuIdx }) => {
 
   const handleLoginSucess = useCallback(
     (response) => {
-      try {
-        const decoded = jwtDecode(response.credential);
-        dispatch(login({ authData: decoded }));
-        setIsAuthentication(true);
-        localStorage.setItem('authData', JSON.stringify(decoded));
-      } catch (error) {
-        console.log('Error uccured while decoding the token', error);
-      }
+      const decoded = jwtDecode(response.credential);
+      dispatch(login({ authData: decoded }));
+      setIsAuthentication(true);
     },
     [dispatch]
   );
@@ -39,26 +34,14 @@ const Navbar = ({ menuIdx }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    let attempt = 0;
-    const maxAttempts = 3;
-
-    const initialGoogleLogin = () => {
-      if (window.google) {
-        // 구글 아이디가 가져와 졌을때
-        window.google.accounts.id.initialize({
-          // 구글 값 초기화
-          client_id: googleClientId,
-          callback: handleLoginSucess,
-        });
-      } else {
-        if (attempt < maxAttempts) {
-          attempt++;
-          setTimeout(initialGoogleLogin, 1000);
-        }
-      }
-    };
-
-    initialGoogleLogin();
+    if (window.google) {
+      // 구글 아이디가 가져와 졌을때
+      window.google.accounts.id.initialize({
+        // 구글 값 초기화
+        client_id: googleClientId,
+        callback: handleLoginSucess,
+      });
+    }
   }, [googleClientId, handleLoginSucess]);
 
   const handleLoginClick = () => {
