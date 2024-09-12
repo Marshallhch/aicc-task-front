@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{margin:0; padding:0; box-sizing: border-box;}
+
+:root{
+  color-scheme: dark;
+}
+
+body{
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Common Page Section Style */
+.page_section{width:100%; height:100vh; padding:0.5rem; display:flex; gap:0.5rem;}
+
+/* Panel Style */
+.panel{width:80%; height:100%;}
+
+/* Custom Logo Style */
+.logo {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(to bottom left, #007fe8 15%, #00cdfc);
+  position: relative;
+}
+
+.logo::before {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  left: 20px;
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(
+    to bottom left,
+    rgba(249, 180, 70, 1) 15%,
+    rgba(234, 47, 152, 0.8)
+  );
+  border-radius: 5px;
+  border: 2px solid #ebf5fc;
+}
+
+span[aria-live="polite"] {
+  width:100%;
+}
+
+/* Post Input Modal Style */
+.input-control {
+  position: relative;
+  margin: 1.6rem 0;
+  font-weight: 500;
+
+  input,
+  textarea {
+    width: 100%;
+    border: none;
+    padding: 0.5rem;
+    resize: none;
+    background-color: #000;
+    color: #ccc;;
+    border-radius: 0.25rem;
+  }
+}
+
+.submit-btn button {
+  color: #bbb;
+
+  i {
+    font-size: 0.875rem;
+  }
+
+}
+
+.toggler {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  label {
+    flex: 1;
+  }
+
+  input {
+    width: initial;
+  }
+}
