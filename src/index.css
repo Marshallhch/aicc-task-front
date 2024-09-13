@@ -87,3 +87,27 @@ span[aria-live="polite"] {
     width: initial;
   }
 }
+
+
+.login-btn {
+  position:relative;
+  border-radius:.25rem;
+}
+
+.login-btn > div{
+  width:100%;
+}
+
+.login-btn button{
+  position:absolute;
+  left:0;
+  top:0;
+  z-index:1;
+}
+
+.login-btn iframe{
+  opacity:0;
+  position:absolute !important;
+  width:100% !important;
+  z-index:99;
+}
